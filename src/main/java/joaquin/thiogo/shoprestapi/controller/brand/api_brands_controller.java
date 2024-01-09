@@ -12,7 +12,7 @@ import joaquin.thiogo.shoprestapi.service.brand.BrandServiceImpl;
 import java.io.IOException;
 
 @WebServlet(urlPatterns = "/api/brands")
-public class aoi_brands_controller extends HttpServlet {
+public class api_brands_controller extends HttpServlet {
 
     private BrandService brandService = new BrandServiceImpl(new BrandRepositoryImpl());
 

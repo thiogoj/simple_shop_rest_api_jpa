@@ -1,11 +1,12 @@
 package joaquin.thiogo.shoprestapi.entity.util;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public interface UpdateAtAware {
 
-    void setUpdatedAt(LocalDateTime updatedAt);
+    void setUpdatedAt(Date updatedAt);
 
-    void setCreatedAt(LocalDateTime createdAt);
+    void setCreatedAt(Date createdAt);
 
 }

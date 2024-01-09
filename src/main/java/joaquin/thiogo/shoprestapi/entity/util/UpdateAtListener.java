@@ -4,17 +4,18 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class UpdateAtListener {
 
     @PrePersist
     public void setLastCreatedAt(UpdateAtAware object) {
-        object.setCreatedAt(LocalDateTime.now());
+        object.setCreatedAt(new Date());
     }
 
     @PreUpdate
     public void setLastUpdatedAt(UpdateAtAware object) {
-        object.setUpdatedAt(LocalDateTime.now());
+        object.setUpdatedAt(new Date());
     }
 
 }

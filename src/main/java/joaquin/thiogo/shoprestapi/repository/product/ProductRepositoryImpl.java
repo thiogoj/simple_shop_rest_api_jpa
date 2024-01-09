@@ -2,6 +2,7 @@ package joaquin.thiogo.shoprestapi.repository.product;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import joaquin.thiogo.shoprestapi.entity.Brand;
 import joaquin.thiogo.shoprestapi.entity.Product;
@@ -12,7 +13,7 @@ import java.util.List;
 public class ProductRepositoryImpl implements ProductRepository{
 
     @Override
-    public void save(Product product) {
+    public void save(Product product, Integer brandId) {
         try (EntityManager entityManager = JpaUtil.getEntityManagerFactory().createEntityManager()) {
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
@@ -20,7 +21,9 @@ public class ProductRepositoryImpl implements ProductRepository{
             product.setName(product.getName());
             product.setDescription(product.getDescription());
             product.setPrice(product.getPrice());
-            product.setBrand(product.getBrand());
+
+            Brand brand = entityManager.find(Brand.class, brandId);
+            product.setBrand(brand);
             entityManager.persist(product);
 
             entityTransaction.commit();
@@ -48,13 +51,17 @@ public class ProductRepositoryImpl implements ProductRepository{
             EntityTransaction entityTransaction = entityManager.getTransaction();
             entityTransaction.begin();
 
-            TypedQuery<Product> query = entityManager.createQuery("select p from Product p join fetch p.brand b where p.id = :id", Product.class);
-            query.setParameter("id", productId);
-            Product product = query.getSingleResult();
+            try {
+                TypedQuery<Product> query = entityManager.createQuery("select p from Product p join fetch p.brand b where p.id = :id", Product.class);
+                query.setParameter("id", productId);
+                Product product = query.getSingleResult();
 
-            entityTransaction.commit();
+                entityTransaction.commit();
 
-            return product;
+                return product;
+            } catch (NoResultException e) {
+                return null;
+            }
         }
     }
 
@@ -86,7 +93,10 @@ public class ProductRepositoryImpl implements ProductRepository{
             entityTransaction.begin();
 
             Product product = entityManager.find(Product.class, productId);
-            entityManager.remove(product);
+
+            if (product != null) {
+                entityManager.remove(product);
+            }
 
             entityTransaction.commit();
         }

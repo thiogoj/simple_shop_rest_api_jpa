@@ -1,6 +1,8 @@
 package joaquin.thiogo.shoprestapi.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,5 +22,6 @@ public class Brand {
     private String name;
 
     @OneToMany(mappedBy = "brand", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List<Product> product;
 }

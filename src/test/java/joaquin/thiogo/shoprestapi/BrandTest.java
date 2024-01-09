@@ -1,11 +1,13 @@
 package joaquin.thiogo.shoprestapi;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import joaquin.thiogo.shoprestapi.entity.Brand;
 import joaquin.thiogo.shoprestapi.repository.brand.BrandRepository;
 import joaquin.thiogo.shoprestapi.repository.brand.BrandRepositoryImpl;
 import joaquin.thiogo.shoprestapi.service.brand.BrandService;
 import joaquin.thiogo.shoprestapi.service.brand.BrandServiceImpl;
+import joaquin.thiogo.shoprestapi.util.JsonUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -51,11 +53,17 @@ public class BrandTest {
 
     @Test
     void getAllBrands() throws JsonProcessingException {
-        brandService.getAllBrands();
+        String allBrands = brandService.getAllBrands();
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String s = objectMapper.writeValueAsString(allBrands);
+        System.out.println(s);
     }
 
     @Test
     void getBrandById() throws JsonProcessingException {
         brandService.getBrandById(9);
     }
+
+
 }

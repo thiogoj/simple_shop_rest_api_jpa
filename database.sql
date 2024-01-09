@@ -30,3 +30,5 @@ alter table products
 
 select *
 from products;
+
+delete from products;
